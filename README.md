@@ -4,7 +4,7 @@ https://www.azure.cn/documentation/articles/open-source-azure-resource-manager-z
 Monitoring experimental deployment.
 
 Supported Distros: 
-Server: Ubuntu 14.04 LTS,CentOS 7.1,CentOS 7.2
+Server: Ubuntu 14.04.5 LTS,CentOS 7.3
 Agent: Ubuntu 14.04 LTS, Ubuntu 16.04 LTS, CentOS 7.1,CentOS 7.2
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fkarataliu%2Fmonicake%2Fmaster%2Fazuredeploy.json" target="_blank">
