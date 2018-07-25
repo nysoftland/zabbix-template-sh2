@@ -1,0 +1,99 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "mysqlHost": {
+      "type": "string",
+      "metadata": {
+        "description": "Not used, leave it here to keep a uniform interface."
+      }
+    },
+    "mysqlServerName": {
+      "type": "string",
+      "metadata": {
+        "description": "The mysqlServer name to be used."
+      }
+    },
+    "mysqlDbName": {
+      "type": "string",
+      "metadata": {
+        "description": "Monitoring service backend MySQL database name."
+      },
+      "defaultValue": "zabbixdb"
+    },
+    "mysqlUser": {
+      "type": "string",
+      "metadata": {
+        "description": "Monitoring service backend MySQL user name."
+      },
+      "defaultValue": "zabbixuser"
+    },
+    "mysqlPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Monitoring service backend MySQL password."
+      }
+    }
+  },
+  "resources": [
+    {
+      "name": "[parameters('mysqlServerName')]",
+      "type": "Microsoft.MySql/servers",
+      "sku": {
+        "name": "MS2"
+      },
+      "apiVersion": "2015-09-01",
+      "location": "chinaeast",
+      "properties": {
+        "dailyBackupTimeInHour": 10,
+        "version": "5.6"
+      },
+      "resources": [
+        {
+          "name": "[parameters('mysqlUser')]",
+          "type": "users",
+          "apiVersion": "2015-09-01",
+          "properties": {
+            "Password": "[parameters('mysqlPassword')]"
+          },
+          "dependsOn": [
+            "[parameters('mysqlServerName')]"
+          ]
+        },
+        {
+          "name": "[parameters('mysqlDbName')]",
+          "type": "databases",
+          "apiVersion": "2015-09-01",
+          "properties": {},
+          "dependsOn": [
+            "[parameters('mysqlServerName')]"
+          ],
+          "resources": [
+            {
+              "name": "[parameters('mysqlUser')]",
+              "type": "privileges",
+              "apiVersion": "2015-09-01",
+              "dependsOn": [
+                "[parameters('mysqlDbName')]",
+                "[resourceId('Microsoft.MySql/servers/users', parameters('mysqlServerName'), parameters('mysqlUser'))]"
+              ],
+              "properties": {
+                "Level": 3
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "mysqlHost": {
+      "type": "string",
+      "value": "[reference(parameters('mysqlServerName')).serviceEndPoint]"
+    },
+    "mysqlUser": {
+      "type": "string",
+      "value": "[concat(parameters('mysqlServerName'),'%',parameters('mysqlUser'))]"
+    }
+  }
+}

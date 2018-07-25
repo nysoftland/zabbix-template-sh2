@@ -1,0 +1,7 @@
+{
+    "location": "westus",
+    "resourcePrefix": "dolium",
+    "tagName": "doliuMoniTest",
+    "vmCount": 2,
+    "adminPassword": ""
+}

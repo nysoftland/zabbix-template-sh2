@@ -1,0 +1,19 @@
+v 0.2
+Add sub parameter file.
+
+v 0.1.10
+Support mail media.
+
+v 0.1.9
+Update nested template location.
+Add _artifactsLocation parameter.
+
+v 0.1.8
+Merge util.pm
+
+v0.1.7
+Support Custom mysql configuration.
+Merge template registerition to setup.
+
+v0.1.6
+Support long configuration options.
